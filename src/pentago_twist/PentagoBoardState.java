@@ -111,6 +111,8 @@ public class PentagoBoardState extends BoardState {
     @Override
     public int firstPlayer() { return FIRST_PLAYER; }
 
+    public int getOpponent() { return (turnPlayer == WHITE) ? BLACK : WHITE; }
+
     @Override
     public Move getRandomMove() {
         ArrayList<PentagoMove> moves = getAllLegalMoves();
