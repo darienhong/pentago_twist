@@ -4,6 +4,8 @@ import boardgame.Move;
 
 import pentago_twist.PentagoPlayer;
 import pentago_twist.PentagoBoardState;
+import pentago_twist.PentagoMove;
+import student_player.mcts.MonteCarlo;
 
 /** A player file submitted by a student. */
 public class StudentPlayer extends PentagoPlayer {
@@ -23,14 +25,28 @@ public class StudentPlayer extends PentagoPlayer {
      * make decisions.
      */
     public Move chooseMove(PentagoBoardState boardState) {
-        // You probably will make separate functions in MyTools.
-        // For example, maybe you'll need to load some pre-processed best opening
-        // strategies...
-        MyTools.getSomething();
 
-        // Is random the best you can do?
-        Move myMove = boardState.getRandomMove();
+        final boolean DEBUG = true;
 
+        long start = System.currentTimeMillis();
+        SimpleHeuristics heuristics = new SimpleHeuristics();
+        PentagoMove winningMove = heuristics.getNextMove(boardState);
+
+        if (winningMove != null) {
+            if (DEBUG) {
+                System.out.printf("Time for Move (s): %f%n", (System.currentTimeMillis() - start) / 1000f);
+                boardState.printBoard();
+            }
+            return winningMove;
+        }
+
+        MonteCarlo mcts = new MonteCarlo();
+        Move myMove = mcts.findNextMove(boardState);
+
+        if (DEBUG) {
+            System.out.printf("Time for Move (s): %f%n", (System.currentTimeMillis() - start) / 1000f);
+            boardState.printBoard();
+        }
         // Return your move to be processed by the server.
         return myMove;
     }

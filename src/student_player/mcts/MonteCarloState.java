@@ -1,4 +1,4 @@
-package student_player;
+package student_player.mcts;
 
 import pentago_twist.PentagoBoardState;
 import pentago_twist.PentagoMove;
