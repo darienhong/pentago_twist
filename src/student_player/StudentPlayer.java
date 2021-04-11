@@ -40,8 +40,8 @@ public class StudentPlayer extends PentagoPlayer {
             return winningMove;
         }
 
-        MonteCarlo mcts = new MonteCarlo();
-        Move myMove = mcts.findNextMove(boardState);
+        MonteCarlo monteCarlo = new MonteCarlo();
+        Move myMove = monteCarlo.findNextMove(boardState);
 
         if (DEBUG) {
             System.out.printf("Time for Move (s): %f%n", (System.currentTimeMillis() - start) / 1000f);
