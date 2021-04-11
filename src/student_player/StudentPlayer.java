@@ -24,6 +24,7 @@ public class StudentPlayer extends PentagoPlayer {
      * object contains the current state of the game, which your agent must use to
      * make decisions.
      */
+    @Override
     public Move chooseMove(PentagoBoardState boardState) {
 
         final boolean DEBUG = true;
