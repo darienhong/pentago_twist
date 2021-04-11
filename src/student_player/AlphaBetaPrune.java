@@ -27,6 +27,10 @@ public class AlphaBetaPrune {
         this.heuristic = new ABHeuristic();
     }
 
+    PentagoMove getNextBestMove(int depth, PentagoBoardState boardState, int currPlayer){
+        return prune(depth, boardState, currPlayer, this.initialAlpha, this.initialBeta).getValue();
+    }
+
     private AbstractMap.SimpleImmutableEntry<Integer, PentagoMove> prune(int depth, PentagoBoardState boardState, int currPlayer, int alpha, int beta) {
 
         ArrayList<PentagoMove> allMoves = boardState.getAllLegalMoves();
@@ -35,13 +39,13 @@ public class AlphaBetaPrune {
 
         if (depth == 0 || allMoves.isEmpty()) {
             bestScore = this.heuristic.computeHeuristic(boardState, currPlayer, alpha, beta);
-            return new AbstractMap.SimpleImmutableEntry<>(bestScore, bestMove);
+            return new AbstractMap.SimpleImmutableEntry(bestScore, bestMove);
 
         }
 
         for (PentagoMove move : allMoves) {
             PentagoBoardState currBoardState = (PentagoBoardState) boardState.clone();
-            boardState.processMove(move);
+            currBoardState.processMove(move);
 
             if (currPlayer == PentagoBoardState.WHITE) {
                 bestScore = prune(depth - 1, currBoardState, PentagoBoardState.BLACK, alpha, beta).getKey();
@@ -69,12 +73,6 @@ public class AlphaBetaPrune {
         return new AbstractMap.SimpleImmutableEntry<>((currPlayer == PentagoBoardState.WHITE) ? alpha : beta, bestMove);
     }
 
-    PentagoMove getNextBestMove(int depth, PentagoBoardState boardState, int currPlayer){
-        return prune(depth, boardState, currPlayer, this.initialAlpha, this.initialBeta).getValue();
-    }
-
-
-
     private class ABHeuristic {
         private ABHeuristic() {
             super();
@@ -89,7 +87,6 @@ public class AlphaBetaPrune {
          * @param currPlayer        The current player
          * @return Score for the currentBoardState
          */
-
 
         private int computeHeuristic(PentagoBoardState currentBoardState, int currPlayer, int alpha, int beta) {
 
@@ -135,9 +132,10 @@ public class AlphaBetaPrune {
                     }
                 }
 
-                // Diagonals
 
                 for (int diagIdx = 0; diagIdx < 5; diagIdx++) {
+
+                    // forward diagonal
                     Piece currPiece = currentBoardState.getPieceAt(diagIdx, diagIdx);
                     Piece neighbour = currentBoardState.getPieceAt(diagIdx + 1, diagIdx + 1);
 
@@ -151,6 +149,7 @@ public class AlphaBetaPrune {
                         forwardDiagonalPieceCount = 0;
                     }
 
+                    // reverse diagonal
                     currPiece = currentBoardState.getPieceAt(diagIdx, 5 - diagIdx);
                     neighbour = currentBoardState.getPieceAt(diagIdx + 1, 4 - diagIdx);
 
@@ -173,6 +172,7 @@ public class AlphaBetaPrune {
                 }
             }
 
+            // If black is MIN player then invert score
             if (currPlayer == PentagoBoardState.BLACK) {
                 score = -score;
             }

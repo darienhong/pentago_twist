@@ -16,7 +16,7 @@ public class MonteCarloPlayer extends PentagoPlayer {
      * associate you with your agent. The constructor should do nothing else.
      */
     public MonteCarloPlayer() {
-        super("260844079");
+        super("MonteCarloPlayer");
     }
 
     /**
@@ -26,14 +26,14 @@ public class MonteCarloPlayer extends PentagoPlayer {
      */
     public Move chooseMove(PentagoBoardState boardState) {
 
-        final boolean DEBUG = true;
+        final boolean TESTING = false; // debug mode, print statements
 
         long start = System.currentTimeMillis();
         SimpleHeuristics heuristics = new SimpleHeuristics();
         PentagoMove winningMove = heuristics.getNextMove(boardState);
 
         if (winningMove != null) {
-            if (DEBUG) {
+            if (TESTING) {
                 System.out.printf("Time for Move (s): %f%n", (System.currentTimeMillis() - start) / 1000f);
                 boardState.printBoard();
             }
@@ -43,7 +43,7 @@ public class MonteCarloPlayer extends PentagoPlayer {
         MonteCarlo monteCarlo = new MonteCarlo();
         Move myMove = monteCarlo.findNextMove(boardState);
 
-        if (DEBUG) {
+        if (TESTING) {
             System.out.printf("Time for Move (s): %f%n", (System.currentTimeMillis() - start) / 1000f);
             boardState.printBoard();
         }

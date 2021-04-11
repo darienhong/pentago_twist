@@ -6,20 +6,31 @@ import pentago_twist.PentagoPlayer;
 
 public class AlphaBetaPlayer extends PentagoPlayer {
 
+    /**
+     * You must modify this constructor to return your student number. This is
+     * important, because this is what the code that runs the competition uses to
+     * associate you with your agent. The constructor should do nothing else.
+     */
     public AlphaBetaPlayer() {
-        super("Alpha Beta Player");
+        super("AlphaBetaPlayer");
     }
 
+    /**
+     * This is the primary method that you need to implement. The ``boardState``
+     * object contains the current state of the game, which your agent must use to
+     * make decisions.
+     */
     @Override
     public Move chooseMove(PentagoBoardState boardState) {
-        final boolean DEBUG = false;
+
+        final boolean TESTING = false;
         SimpleHeuristics simpleHeuristics = new SimpleHeuristics();
         Move winningMove = simpleHeuristics.getNextMove(boardState);
 
         long start = System.currentTimeMillis();
         if (winningMove != null) {
-            //noinspection ConstantConditions
-            if (DEBUG) {
+
+            if (TESTING) {
                 System.out.printf("Time for Move (s): %f%n", (System.currentTimeMillis() - start) / 1000f);
                 boardState.printBoard();
             }
@@ -31,10 +42,10 @@ public class AlphaBetaPlayer extends PentagoPlayer {
         Move myMove = optimizer.getNextBestMove(DEPTH, boardState, boardState.getTurnPlayer());
         float timeElapsed = (System.currentTimeMillis() - start) / 1000f;
 
-        if (DEBUG) {
+        if (TESTING) {
+            System.out.printf("Time for Move (s): %f%n", timeElapsed);
             System.out.println(myMove.toPrettyString());
             boardState.printBoard();
-            System.out.printf("Time for Move (s): %f%n", timeElapsed);
         }
 
         return myMove;
