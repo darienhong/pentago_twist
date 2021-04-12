@@ -29,7 +29,8 @@ public class MonteCarloPlayer extends PentagoPlayer {
         final boolean TESTING = false; // debug mode, print statements
 
         long start = System.currentTimeMillis();
-        SimpleHeuristics heuristics = new SimpleHeuristics();
+
+      /*  SimpleHeuristics heuristics = new SimpleHeuristics();
         PentagoMove winningMove = heuristics.getNextMove(boardState);
 
         if (winningMove != null) {
@@ -39,6 +40,9 @@ public class MonteCarloPlayer extends PentagoPlayer {
             }
             return winningMove;
         }
+
+
+       */
 
         MonteCarlo monteCarlo = new MonteCarlo();
         Move myMove = monteCarlo.findNextMove(boardState);

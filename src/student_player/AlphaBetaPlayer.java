@@ -24,10 +24,10 @@ public class AlphaBetaPlayer extends PentagoPlayer {
     public Move chooseMove(PentagoBoardState boardState) {
 
         final boolean TESTING = false;
-        SimpleHeuristics simpleHeuristics = new SimpleHeuristics();
+        long start = System.currentTimeMillis();
+   /*     SimpleHeuristics simpleHeuristics = new SimpleHeuristics();
         Move winningMove = simpleHeuristics.getNextMove(boardState);
 
-        long start = System.currentTimeMillis();
         if (winningMove != null) {
 
             if (TESTING) {
@@ -36,6 +36,9 @@ public class AlphaBetaPlayer extends PentagoPlayer {
             }
             return winningMove;
         }
+
+
+    */
 
         final int DEPTH = 3;
         AlphaBetaPrune optimizer = new AlphaBetaPrune();
