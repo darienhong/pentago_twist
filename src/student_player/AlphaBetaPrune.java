@@ -27,10 +27,6 @@ public class AlphaBetaPrune {
         this.heuristic = new ABHeuristic();
     }
 
-    PentagoMove getNextBestMove(int depth, PentagoBoardState boardState, int currPlayer){
-        return prune(depth, boardState, currPlayer, this.initialAlpha, this.initialBeta).getValue();
-    }
-
     private AbstractMap.SimpleImmutableEntry<Integer, PentagoMove> prune(int depth, PentagoBoardState boardState, int currPlayer, int alpha, int beta) {
 
         ArrayList<PentagoMove> allMoves = boardState.getAllLegalMoves();
@@ -39,7 +35,7 @@ public class AlphaBetaPrune {
 
         if (depth == 0 || allMoves.isEmpty()) {
             bestScore = this.heuristic.computeHeuristic(boardState, currPlayer, alpha, beta);
-            return new AbstractMap.SimpleImmutableEntry(bestScore, bestMove);
+            return new AbstractMap.SimpleImmutableEntry<>(bestScore, bestMove);
 
         }
 
@@ -73,15 +69,19 @@ public class AlphaBetaPrune {
         return new AbstractMap.SimpleImmutableEntry<>((currPlayer == PentagoBoardState.WHITE) ? alpha : beta, bestMove);
     }
 
+    PentagoMove getNextBestMove(int depth, PentagoBoardState boardState, int currPlayer){
+        return prune(depth, boardState, currPlayer, this.initialAlpha, this.initialBeta).getValue();
+    }
+
     private class ABHeuristic {
         private ABHeuristic() {
             super();
         }
 
         /**
-         * This heuristic computes a better score for pieces that can form one ore more horizontal/vertical/diagonal
-         * lines. The longer the uninterrupted line is, the higher the score. Alternatively, if there exists a move that
-         * guarantees a win, then that state has the highest score.
+         * This ABHeuristic computes scores for the current state of the board. Pieces that can form one ore more
+         * horizontal/vertical/diagonal lines have a better score. The longer the uninterrupted line is, the higher the score.
+         * If there exists a move that guarantees a win, then that state has the highest score.
          *
          * @param currentBoardState The current state of the board and game
          * @param currPlayer        The current player
@@ -90,6 +90,7 @@ public class AlphaBetaPrune {
 
         private int computeHeuristic(PentagoBoardState currentBoardState, int currPlayer, int alpha, int beta) {
 
+            // if current player is WHITE, starting score is alpha, else beta
             int score = currPlayer == PentagoBoardState.WHITE ? alpha : beta;
             int horizontalPieceCount = 0;
             int verticalPieceCount = 0;

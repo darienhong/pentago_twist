@@ -7,7 +7,9 @@ import pentago_twist.PentagoBoardState;
 import pentago_twist.PentagoMove;
 import student_player.mcts.MonteCarlo;
 
-/** A player file submitted by a student. */
+/**
+ * A PentagoPlayer that uses the MonteCarlo Seach Tree algorithm to select the next move
+ */
 public class MonteCarloPlayer extends PentagoPlayer {
 
     /**

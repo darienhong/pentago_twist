@@ -4,6 +4,9 @@ import boardgame.Move;
 import pentago_twist.PentagoBoardState;
 import pentago_twist.PentagoPlayer;
 
+/**
+ * A Pentago Player that uses the Alpha Beta Pruning strategy to choose the next move
+ */
 public class AlphaBetaPlayer extends PentagoPlayer {
 
     /**

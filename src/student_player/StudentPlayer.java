@@ -4,7 +4,6 @@ import boardgame.Move;
 
 import pentago_twist.PentagoPlayer;
 import pentago_twist.PentagoBoardState;
-import pentago_twist.PentagoMove;
 import student_player.mcts.MonteCarlo;
 
 /** A player file submitted by a student. */
@@ -26,29 +25,31 @@ public class StudentPlayer extends PentagoPlayer {
      */
     @Override
     public Move chooseMove(PentagoBoardState boardState) {
-        final boolean DEBUG = false;
-        SimpleHeuristics simpleHeuristics = new SimpleHeuristics();
+        final boolean TESTING = false;
+
+        // Use the One-Move-Win Heuristic first to see if there is a move that guarantees a win
+        OneMoveHeuristic simpleHeuristics = new OneMoveHeuristic();
         Move winningMove = simpleHeuristics.getNextMove(boardState);
 
         long start = System.currentTimeMillis();
         if (winningMove != null) {
-            //noinspection ConstantConditions
-            if (DEBUG) {
+            if (TESTING) {
                 System.out.printf("Time for Move (s): %f%n", (System.currentTimeMillis() - start) / 1000f);
                 boardState.printBoard();
             }
             return winningMove;
         }
 
+        // if there is no move that guarantees a win, then use AB Pruning to select next best move
         final int DEPTH = 3;
         AlphaBetaPrune optimizer = new AlphaBetaPrune();
         Move myMove = optimizer.getNextBestMove(DEPTH, boardState, boardState.getTurnPlayer());
         float timeElapsed = (System.currentTimeMillis() - start) / 1000f;
 
-        if (DEBUG) {
+        if (TESTING) {
+            System.out.printf("Time for Move (s): %f%n", timeElapsed);
             System.out.println(myMove.toPrettyString());
             boardState.printBoard();
-            System.out.printf("Time for Move (s): %f%n", timeElapsed);
         }
 
         return myMove;
