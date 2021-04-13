@@ -4,7 +4,6 @@ import boardgame.Move;
 
 import pentago_twist.PentagoPlayer;
 import pentago_twist.PentagoBoardState;
-import student_player.mcts.MonteCarlo;
 
 /** A player file submitted by a student. */
 public class StudentPlayer extends PentagoPlayer {
