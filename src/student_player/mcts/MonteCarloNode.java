@@ -4,6 +4,9 @@ import java.util.*;
 import pentago_twist.PentagoBoardState;
 import pentago_twist.PentagoMove;
 
+/**
+ * Class to represent a Node in the Monte Carlo Search Tree
+ */
 public class MonteCarloNode {
     private MonteCarloState state;
     private MonteCarloNode parent;
@@ -61,6 +64,10 @@ public class MonteCarloNode {
         this.children = children;
     }
 
+    /**
+     *
+     * @return child with largest visit count
+     */
     MonteCarloNode getMaxScoreChild(){
         return Collections.max(this.children, Comparator.comparing(c -> c.getState().getVisitCount()));
     }

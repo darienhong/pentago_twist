@@ -18,12 +18,12 @@ public class OneMoveHeuristic {
         super();
     }
 
-    PentagoMove getNextMove(PentagoBoardState pentagoBoardState){
-        ArrayList<PentagoMove> possibleMoves = pentagoBoardState.getAllLegalMoves();
+    PentagoMove getNextMove(PentagoBoardState boardState){
+        ArrayList<PentagoMove> possibleMoves = boardState.getAllLegalMoves();
         for (PentagoMove move: possibleMoves) {
-            PentagoBoardState boardStateClone = (PentagoBoardState) pentagoBoardState.clone();
+            PentagoBoardState boardStateClone = (PentagoBoardState) boardState.clone();
             boardStateClone.processMove(move);
-            if (boardStateClone.getWinner() == pentagoBoardState.getTurnPlayer()) {
+            if (boardStateClone.getWinner() == boardState.getTurnPlayer()) {
                 return move;
             }
         }

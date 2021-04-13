@@ -32,25 +32,11 @@ public class MonteCarloPlayer extends PentagoPlayer {
 
         long start = System.currentTimeMillis();
 
-      /*  SimpleHeuristics heuristics = new SimpleHeuristics();
-        PentagoMove winningMove = heuristics.getNextMove(boardState);
-
-        if (winningMove != null) {
-            if (TESTING) {
-                System.out.printf("Time for Move (s): %f%n", (System.currentTimeMillis() - start) / 1000f);
-                boardState.printBoard();
-            }
-            return winningMove;
-        }
-
-
-       */
-
         MonteCarlo monteCarlo = new MonteCarlo();
         Move myMove = monteCarlo.findNextMove(boardState);
 
         if (TESTING) {
-            System.out.printf("Time for Move (s): %f%n", (System.currentTimeMillis() - start) / 1000f);
+            System.out.printf("Time for selecting move (s): %f%n", (System.currentTimeMillis() - start) / 1000f);
             boardState.printBoard();
         }
         // Return your move to be processed by the server.

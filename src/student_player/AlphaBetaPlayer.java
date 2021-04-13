@@ -26,30 +26,16 @@ public class AlphaBetaPlayer extends PentagoPlayer {
     @Override
     public Move chooseMove(PentagoBoardState boardState) {
 
-        final boolean TESTING = false;
+        final boolean TESTING = false; // in debug mode
         long start = System.currentTimeMillis();
-   /*     SimpleHeuristics simpleHeuristics = new SimpleHeuristics();
-        Move winningMove = simpleHeuristics.getNextMove(boardState);
 
-        if (winningMove != null) {
-
-            if (TESTING) {
-                System.out.printf("Time for Move (s): %f%n", (System.currentTimeMillis() - start) / 1000f);
-                boardState.printBoard();
-            }
-            return winningMove;
-        }
-
-
-    */
-
-        final int DEPTH = 3;
+        int DEPTH = 3;
         AlphaBetaPrune optimizer = new AlphaBetaPrune();
         Move myMove = optimizer.getNextBestMove(DEPTH, boardState, boardState.getTurnPlayer());
         float timeElapsed = (System.currentTimeMillis() - start) / 1000f;
 
         if (TESTING) {
-            System.out.printf("Time for Move (s): %f%n", timeElapsed);
+            System.out.printf("Time for selecting move (s): %f%n", timeElapsed);
             System.out.println(myMove.toPrettyString());
             boardState.printBoard();
         }

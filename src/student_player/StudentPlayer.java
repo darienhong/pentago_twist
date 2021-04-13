@@ -25,16 +25,16 @@ public class StudentPlayer extends PentagoPlayer {
      */
     @Override
     public Move chooseMove(PentagoBoardState boardState) {
-        final boolean TESTING = false;
+        boolean TESTING = false; // in debug mode
 
         // Use the One-Move-Win Heuristic first to see if there is a move that guarantees a win
-        OneMoveHeuristic simpleHeuristics = new OneMoveHeuristic();
-        Move winningMove = simpleHeuristics.getNextMove(boardState);
+        OneMoveHeuristic heuristic = new OneMoveHeuristic();
+        Move winningMove = heuristic.getNextMove(boardState);
 
         long start = System.currentTimeMillis();
         if (winningMove != null) {
             if (TESTING) {
-                System.out.printf("Time for Move (s): %f%n", (System.currentTimeMillis() - start) / 1000f);
+                System.out.printf("Time to select move (s): %f%n", (System.currentTimeMillis() - start) / 1000f);
                 boardState.printBoard();
             }
             return winningMove;
@@ -42,12 +42,12 @@ public class StudentPlayer extends PentagoPlayer {
 
         // if there is no move that guarantees a win, then use AB Pruning to select next best move
         final int DEPTH = 3;
-        AlphaBetaPrune optimizer = new AlphaBetaPrune();
-        Move myMove = optimizer.getNextBestMove(DEPTH, boardState, boardState.getTurnPlayer());
+        AlphaBetaPrune alphaBeta = new AlphaBetaPrune();
+        Move myMove = alphaBeta.getNextBestMove(DEPTH, boardState, boardState.getTurnPlayer());
         float timeElapsed = (System.currentTimeMillis() - start) / 1000f;
 
         if (TESTING) {
-            System.out.printf("Time for Move (s): %f%n", timeElapsed);
+            System.out.printf("Time to select move (s): %f%n", timeElapsed);
             System.out.println(myMove.toPrettyString());
             boardState.printBoard();
         }

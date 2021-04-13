@@ -7,7 +7,7 @@ public class MonteCarloUCT {
     private static final double scalingConstant = Math.sqrt(2);
 
     /**
-     *
+     * Calculate UCT value of a particular node
      * @param totalVisit no times parent was visited
      * @param nodeWinScore value of taking that node
      * @param nodeVisit times node was visited
@@ -22,7 +22,7 @@ public class MonteCarloUCT {
     }
 
     /**
-     *
+     * Find the child with largest UCT value
      * @param node
      * @return Child with best UCT value
      */

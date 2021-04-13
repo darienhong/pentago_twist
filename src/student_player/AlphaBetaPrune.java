@@ -1,7 +1,6 @@
 package student_player;
 
 import boardgame.Board;
-import boardgame.BoardState;
 import pentago_twist.PentagoBoardState;
 import pentago_twist.PentagoBoardState.Piece;
 import pentago_twist.PentagoMove;
@@ -22,6 +21,9 @@ public class AlphaBetaPrune {
         this.heuristic = new ABHeuristic();
     }
 
+    /**
+     * Default: initialize alpha and beta with their worst values
+     */
     AlphaBetaPrune(){
         new AlphaBetaPrune(Integer.MIN_VALUE, Integer.MAX_VALUE);
         this.heuristic = new ABHeuristic();
@@ -34,7 +36,7 @@ public class AlphaBetaPrune {
         int bestScore;
 
         if (depth == 0 || allMoves.isEmpty()) {
-            bestScore = this.heuristic.computeHeuristic(boardState, currPlayer, alpha, beta);
+            bestScore = this.heuristic.computeUtility(boardState, currPlayer, alpha, beta);
             return new AbstractMap.SimpleImmutableEntry<>(bestScore, bestMove);
 
         }
@@ -88,14 +90,14 @@ public class AlphaBetaPrune {
          * @return Score for the currentBoardState
          */
 
-        private int computeHeuristic(PentagoBoardState currentBoardState, int currPlayer, int alpha, int beta) {
+        private int computeUtility(PentagoBoardState currentBoardState, int currPlayer, int alpha, int beta) {
 
             // if current player is WHITE, starting score is alpha, else beta
             int score = currPlayer == PentagoBoardState.WHITE ? alpha : beta;
-            int horizontalPieceCount = 0;
-            int verticalPieceCount = 0;
-            int forwardDiagonalPieceCount = 0;
-            int reverseDiagonalPieceCount = 0;
+            int horizontalCount = 0;
+            int verticalCount = 0;
+            int forwardDiagCount = 0;
+            int reverseDiagCount = 0;
 
             if (currentBoardState.getWinner() == Board.NOBODY) {
 
@@ -107,13 +109,13 @@ public class AlphaBetaPrune {
                         Piece neighbour = currentBoardState.getPieceAt(i, j + 1);
 
                         if (piece == Piece.WHITE && neighbour == Piece.WHITE) {
-                            score += Math.pow(2, horizontalPieceCount);
-                            horizontalPieceCount++;
+                            score += Math.pow(2, horizontalCount);
+                            horizontalCount++;
                         } else if (piece == Piece.BLACK && neighbour == Piece.BLACK) {
-                            score -= Math.pow(2, horizontalPieceCount);
-                            horizontalPieceCount++;
+                            score -= Math.pow(2, horizontalCount);
+                            horizontalCount++;
                         } else {
-                            horizontalPieceCount = 0;
+                            horizontalCount = 0;
                         }
 
                         // Vertical lines
@@ -121,13 +123,13 @@ public class AlphaBetaPrune {
                         neighbour = currentBoardState.getPieceAt(j + 1, i);
 
                         if (piece == Piece.WHITE && neighbour == Piece.WHITE) {
-                            score += Math.pow(2, verticalPieceCount);
-                            verticalPieceCount++;
+                            score += Math.pow(2, verticalCount);
+                            verticalCount++;
                         } else if (piece == Piece.BLACK && neighbour == Piece.BLACK) {
-                            score -= Math.pow(2, verticalPieceCount);
-                            verticalPieceCount++;
+                            score -= Math.pow(2, verticalCount);
+                            verticalCount++;
                         } else {
-                            verticalPieceCount = 0;
+                            verticalCount = 0;
                         }
 
                     }
@@ -141,13 +143,13 @@ public class AlphaBetaPrune {
                     Piece neighbour = currentBoardState.getPieceAt(diagIdx + 1, diagIdx + 1);
 
                     if (currPiece == Piece.WHITE && neighbour == Piece.WHITE) {
-                        score += Math.pow(2, forwardDiagonalPieceCount);
-                        forwardDiagonalPieceCount++;
+                        score += Math.pow(2, forwardDiagCount);
+                        forwardDiagCount++;
                     } else if (currPiece == Piece.BLACK && neighbour == Piece.BLACK) {
-                        score -= Math.pow(2, forwardDiagonalPieceCount);
-                        forwardDiagonalPieceCount++;
+                        score -= Math.pow(2, forwardDiagCount);
+                        forwardDiagCount++;
                     } else {
-                        forwardDiagonalPieceCount = 0;
+                        forwardDiagCount = 0;
                     }
 
                     // reverse diagonal
@@ -155,17 +157,18 @@ public class AlphaBetaPrune {
                     neighbour = currentBoardState.getPieceAt(diagIdx + 1, 4 - diagIdx);
 
                     if (currPiece == Piece.WHITE && neighbour == Piece.WHITE) {
-                        score += Math.pow(2, reverseDiagonalPieceCount);
-                        reverseDiagonalPieceCount++;
+                        score += Math.pow(2, reverseDiagCount);
+                        reverseDiagCount++;
                     } else if (currPiece == Piece.BLACK && neighbour == Piece.BLACK) {
-                        score -= Math.pow(2, reverseDiagonalPieceCount);
-                        reverseDiagonalPieceCount++;
+                        score -= Math.pow(2, reverseDiagCount);
+                        reverseDiagCount++;
                     } else {
-                        reverseDiagonalPieceCount = 0;
+                        reverseDiagCount = 0;
                     }
                 }
 
             } else {
+                // setting the upper and lower bounds of winning
                 if (currentBoardState.getWinner() == PentagoBoardState.WHITE) {
                     score = Integer.MAX_VALUE;
                 } else {

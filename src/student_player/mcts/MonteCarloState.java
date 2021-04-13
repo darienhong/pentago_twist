@@ -80,20 +80,33 @@ public class MonteCarloState {
     }
 
 
+    /**
+     * Increment visit count
+     */
     void addVisit(){
         this.visitCount++;
     }
 
+    /**
+     * Increment winScore with newScore
+     * @param newScore
+     */
     void addScore(double newScore){
         if (this.winScore != Integer.MIN_VALUE) {
             this.winScore += newScore;
         }
     }
 
+    /**
+     * Toggle to different player
+     */
     void changePlayer(){
         this.playerNo = this.playerNo == PentagoBoardState.WHITE ? PentagoBoardState.BLACK : PentagoBoardState.WHITE;
     }
 
+    /**
+     * Choose a random move to perform
+     */
     void performRandomMove(){
         Random rand = new Random();
         ArrayList<PentagoMove> allMoves = this.boardState.getAllLegalMoves();
