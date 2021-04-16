@@ -1,9 +1,10 @@
 package student_player.mcts;
 
-import java.util.*;
 import boardgame.Board;
 import boardgame.Move;
 import pentago_twist.PentagoBoardState;
+
+import java.util.ArrayList;
 
 public class MonteCarlo {
     private int opponent;
@@ -17,8 +18,8 @@ public class MonteCarlo {
     public Move findNextMove(PentagoBoardState boardState) {
         long endTime = System.currentTimeMillis() + MAX_SEARCH_TIME;
         MonteCarloNode root = new MonteCarloNode(boardState, null);
-        root.getState().setPlayerNo(boardState.getOpponent());
-        this.opponent = boardState.getOpponent();
+        root.getState().setPlayerNo(boardState.getTurnPlayer() == PentagoBoardState.WHITE ? PentagoBoardState.BLACK : PentagoBoardState.WHITE);
+        this.opponent = boardState.getTurnPlayer() == PentagoBoardState.WHITE ? PentagoBoardState.BLACK : PentagoBoardState.WHITE;
 
         while (System.currentTimeMillis() < endTime) {
 

@@ -1,10 +1,8 @@
 package student_player;
 
 import boardgame.Move;
-
-import pentago_twist.PentagoPlayer;
 import pentago_twist.PentagoBoardState;
-import pentago_twist.PentagoMove;
+import pentago_twist.PentagoPlayer;
 import student_player.mcts.MonteCarlo;
 
 /**

@@ -2,7 +2,9 @@ package student_player.mcts;
 
 import pentago_twist.PentagoBoardState;
 import pentago_twist.PentagoMove;
-import java.util.*;
+
+import java.util.ArrayList;
+import java.util.Random;
 
 public class MonteCarloState {
     private PentagoBoardState boardState;
@@ -37,7 +39,7 @@ public class MonteCarloState {
     }
 
     int getOpponent(){
-        return this.boardState.getOpponent();
+        return this.boardState.getTurnPlayer() == PentagoBoardState.WHITE ? PentagoBoardState.BLACK : PentagoBoardState.WHITE;
     }
 
     PentagoMove getPentagoMove(){
@@ -70,7 +72,7 @@ public class MonteCarloState {
         for (PentagoMove move : allMoves) {
             PentagoBoardState newBoard = (PentagoBoardState) boardState.clone();
             MonteCarloState newState = new MonteCarloState(newBoard, move);
-            newState.setPlayerNo(newBoard.getOpponent());
+            newState.setPlayerNo(newBoard.getTurnPlayer() == PentagoBoardState.WHITE ? PentagoBoardState.BLACK : PentagoBoardState.WHITE);
             newState.getBoardState().processMove(move);
 
             possibleStates.add(newState);

@@ -2,7 +2,8 @@ package student_player;
 
 import pentago_twist.PentagoBoardState;
 import pentago_twist.PentagoMove;
-import java.util.*;
+
+import java.util.ArrayList;
 
 /**
  * Simple One-Move-Win heuristic function

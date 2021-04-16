@@ -1,9 +1,8 @@
 package student_player;
 
 import boardgame.Move;
-
-import pentago_twist.PentagoPlayer;
 import pentago_twist.PentagoBoardState;
+import pentago_twist.PentagoPlayer;
 
 /** A player file submitted by a student. */
 public class StudentPlayer extends PentagoPlayer {
